@@ -1,0 +1,20 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY ./backend/ ./
+
+RUN npm install
+
+EXPOSE 4000
+
+ENV MYSQL_HOST=mysql_cont
+
+ENV MYSQL_USER=user
+
+ENV MYSQL_DATABASE=experiments
+#give Dockerfile.db a look
+ENV MYSQL_PASSWORD=pass1234
+
+CMD ["node","./main.js"]
+

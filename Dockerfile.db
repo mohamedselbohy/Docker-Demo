@@ -1,0 +1,18 @@
+FROM mysql:latest
+
+VOLUME [ "/var/lib/mysql" ]
+
+ENV MYSQL_USER=user
+
+#not a good practice to inject a secret directly into a dockerfile
+#this example is only for minimalizing setup procedures for beginners
+#you can find a better way to inject secrets as env into containers
+#try searching docker .env files or docker secrets
+
+ENV MYSQL_PASSWORD=pass1234
+
+ENV MYSQL_DATABASE=experiments
+
+ENV MYSQL_ROOT_PASSWORD=pass1234
+
+EXPOSE 3306
