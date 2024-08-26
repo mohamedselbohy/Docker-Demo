@@ -1,0 +1,60 @@
+---
+- name: "Automate Rebuilding Docker containers with Ansible "
+  hosts: localhost
+  tasks:
+    - name: stop running frontend container
+      command: docker stop frontend_cont
+      ignore_errors: yes
+
+    - name: remove frontend container
+      command: docker rm frontend_cont
+      ignore_errors: yes
+
+    - name: remove frontend image
+      command: docker rmi devopsfrontend
+      ignore_errors: yes
+
+
+    - name: stop running backend container
+      command: docker stop backend_cont
+      ignore_errors: yes
+
+    - name: remove backend container
+      command: docker rm backend_cont
+      ignore_errors: yes
+
+    - name: remove backend image
+      command: docker rmi devopsbackend
+      ignore_errors: yes
+
+
+    - name: stop running database container
+      command: docker stop mysql_cont
+      ignore_errors: yes
+
+
+    - name: remove database container
+      command: docker rm mysql_cont
+      ignore_errors: yes
+
+    - name: remove database image
+      command: docker rmi devopsmysql
+      ignore_errors: yes
+    
+    - name: build database image
+      command: docker build -t devopsmysql:latest -f ./Dockerfile.db .
+
+    - name: run database container
+      command: docker run --name mysql_cont --network backdb -p 3306:3306 -v mysqldata:/var/lib/mysql -d devopsmysql
+
+    - name: build backend image
+      command: docker build -t devopsbackend:latest -f ./Dockerfile.back .
+
+    - name: run backend container
+      command: docker run --name backend_cont --network backdb --network frontback -p 4000:4000 -d devopsbackend
+
+    - name: build frontend image
+      command: docker build -t devopsfrontend:latest -f ./Dockerfile .
+
+    - name: run frontend container
+      command: docker run --name frontend_cont --network frontback -p 80:80 -d devopsfrontend

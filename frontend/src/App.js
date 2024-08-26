@@ -4,7 +4,7 @@ import {useEffect,useState} from 'react';
 function App() {
   const [msg,setMsg] = useState("");
   useEffect(()=>{
-    fetch("http://localhost:4000/api/get").then(res=>res.json()).then(data=>setMsg(data)).catch((err)=>alert(err));
+    fetch("http://localhost:4000/api/get").then(res=>res.json()).then(data=>setMsg(data.msg)).catch((err)=>alert(err));
   },[])
   return (
     <div className="App">

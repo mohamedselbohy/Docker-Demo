@@ -1,5 +1,5 @@
 docker stop frontend_cont || true
-docker rm frontend_cont || true
+docker rm frontend_cont ||true
 docker rmi devopsfrontend || true
 
 docker stop backend_cont || true
@@ -7,7 +7,7 @@ docker rm backend_cont || true
 docker rmi devopsbackend || true
 
 docker stop mysql_cont || true
-docker rm mysql_cont || true
+docker rm mysql_cont  || true
 docker rmi devopsmysql || true
 
 docker build -t devopsmysql:latest -f ./Dockerfile.db .
